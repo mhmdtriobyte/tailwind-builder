@@ -18,7 +18,7 @@
     "component-library",
     "responsive-design"
   ],
-  "homepage": "https://tailwind-builder.vercel.app",
+  "homepage": "https://tailwind-builder.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/mhmd/tailwind-builder.git"

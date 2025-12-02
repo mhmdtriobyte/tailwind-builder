@@ -9,8 +9,9 @@ Build beautiful, responsive UIs without writing code. Export clean React + Tailw
 [![Stars](https://img.shields.io/github/stars/mhmdtriobyte/tailwind-builder?style=social)](https://github.com/mhmdtriobyte/tailwind-builder)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Website](https://img.shields.io/badge/website-tailwind--builder.site-blue)](https://tailwind-builder.site)
 
-[Demo](https://tailwind-builder.vercel.app) · [Documentation](https://tailwind-builder.vercel.app/tutorial) · [Report Bug](https://github.com/mhmdtriobyte/tailwind-builder/issues) · [Request Feature](https://github.com/mhmdtriobyte/tailwind-builder/issues)
+[🌐 Live Demo](https://tailwind-builder.site) · [Documentation](https://tailwind-builder.site/tutorial) · [Report Bug](https://github.com/mhmdtriobyte/tailwind-builder/issues) · [Request Feature](https://github.com/mhmdtriobyte/tailwind-builder/issues)
 
 </div>
 
@@ -152,7 +153,7 @@ Deploy your own Tailwind Builder with one click:
 
 ## 📖 Documentation
 
-Visit our [Tutorial Page](https://tailwind-builder.vercel.app/tutorial) for:
+Visit our [Tutorial Page](https://tailwind-builder.site/tutorial) for:
 - Step-by-step getting started guide
 - Component library overview
 - Properties panel documentation

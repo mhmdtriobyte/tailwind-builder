@@ -72,7 +72,7 @@ export default function LandingPage() {
               Tutorial
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/mhmdtriobyte/tailwind-builder"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-400 hover:text-white transition-colors"
@@ -337,7 +337,7 @@ export default function LandingPage() {
                 Features
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/mhmdtriobyte/tailwind-builder"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"

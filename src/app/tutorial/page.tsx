@@ -290,7 +290,7 @@ export default function TutorialPage() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/mhmdtriobyte/tailwind-builder"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 text-gray-400 hover:text-white transition-colors"
@@ -899,7 +899,7 @@ export default function TutorialPage() {
                 Tutorial
               </Link>
               <a
-                href="https://github.com"
+                href="https://github.com/mhmdtriobyte/tailwind-builder"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors"

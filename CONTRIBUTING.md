@@ -54,7 +54,7 @@ This project and everyone participating in it is governed by our commitment to p
 
 ```bash
 # Clone the repository
-git clone https://github.com/mhmd/tailwind-builder.git
+git clone https://github.com/mhmdtriobyte/tailwind-builder.git
 cd tailwind-builder
 
 # Install dependencies

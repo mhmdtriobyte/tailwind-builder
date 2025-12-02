@@ -6,19 +6,11 @@
 
 Build beautiful, responsive UIs without writing code. Export clean React + Tailwind CSS.
 
-[![Stars](https://img.shields.io/github/stars/mhmd/tailwind-builder?style=social)](https://github.com/mhmd/tailwind-builder)
+[![Stars](https://img.shields.io/github/stars/mhmdtriobyte/tailwind-builder?style=social)](https://github.com/mhmdtriobyte/tailwind-builder)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Twitter](https://img.shields.io/twitter/follow/tailwindbuilder?style=social)](https://twitter.com/tailwindbuilder)
 
-[Demo](https://tailwind-builder.vercel.app) · [Documentation](https://tailwind-builder.vercel.app/tutorial) · [Report Bug](https://github.com/mhmd/tailwind-builder/issues) · [Request Feature](https://github.com/mhmd/tailwind-builder/issues)
-
-<br />
-
-<!-- Add your demo GIF here -->
-<!-- ![Tailwind Builder Demo](public/demo.gif) -->
-
-<img src="public/demo-screenshot.png" alt="Tailwind Builder Screenshot" width="100%" />
+[Demo](https://tailwind-builder.vercel.app) · [Documentation](https://tailwind-builder.vercel.app/tutorial) · [Report Bug](https://github.com/mhmdtriobyte/tailwind-builder/issues) · [Request Feature](https://github.com/mhmdtriobyte/tailwind-builder/issues)
 
 </div>
 
@@ -56,7 +48,7 @@ Perfect for:
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/mhmd/tailwind-builder.git
+git clone https://github.com/mhmdtriobyte/tailwind-builder.git
 
 # 2. Install dependencies
 cd tailwind-builder && npm install
@@ -154,7 +146,7 @@ Open [http://localhost:3000](http://localhost:3000) and start dragging component
 
 Deploy your own Tailwind Builder with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mhmd/tailwind-builder)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mhmdtriobyte/tailwind-builder)
 
 ---
 
@@ -184,11 +176,11 @@ Ways to contribute:
 
 ## 📈 Star History
 
-<a href="https://star-history.com/#mhmd/tailwind-builder&Date">
+<a href="https://star-history.com/#mhmdtriobyte/tailwind-builder&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mhmd/tailwind-builder&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mhmd/tailwind-builder&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mhmd/tailwind-builder&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mhmdtriobyte/tailwind-builder&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mhmdtriobyte/tailwind-builder&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mhmdtriobyte/tailwind-builder&type=Date" />
   </picture>
 </a>
 
@@ -198,8 +190,8 @@ Ways to contribute:
 
 If you find Tailwind Builder useful, please consider giving it a star! It helps others discover the project.
 
-<a href="https://github.com/mhmd/tailwind-builder">
-  <img src="https://img.shields.io/github/stars/mhmd/tailwind-builder?style=for-the-badge&logo=github&color=yellow" alt="GitHub stars" />
+<a href="https://github.com/mhmdtriobyte/tailwind-builder">
+  <img src="https://img.shields.io/github/stars/mhmdtriobyte/tailwind-builder?style=for-the-badge&logo=github&color=yellow" alt="GitHub stars" />
 </a>
 
 ---
@@ -212,7 +204,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-Made with ❤️ by [Mhmd](https://github.com/mhmd)
+Made with ❤️ by [Mhmd](https://github.com/mhmdtriobyte)
 
 [⬆ Back to top](#-tailwind-builder)
 

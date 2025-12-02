@@ -1,0 +1,8 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/role-supports-aria-props": "warn"
+  }
+}

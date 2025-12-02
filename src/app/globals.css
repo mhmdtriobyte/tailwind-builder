@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #030712;
+  --foreground: #f9fafb;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #6366f1;
+  --accent: #8b5cf6;
+  --muted: #6b7280;
+  --border: #374151;
+  --card: #111827;
+  --card-hover: #1f2937;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+/* Base styles */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Custom scrollbar for dark theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #374151 #111827;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #111827;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #111827;
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #f9fafb;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-gray-900/80 backdrop-blur-xl border border-gray-800;
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Drag and drop utilities */
+  .dragging {
+    @apply opacity-50 scale-105;
+  }
+
+  .drop-target {
+    @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-950;
+  }
+
+  .drop-indicator {
+    @apply bg-blue-500/20 border-2 border-dashed border-blue-500 rounded-lg;
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulseSubtle 2s infinite;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Component-specific styles */
+@layer components {
+  /* Button base */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2
+           rounded-lg font-medium transition-smooth
+           focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-blue-500 focus-visible:ring-offset-2
+           focus-visible:ring-offset-gray-950
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-800 text-gray-200 hover:bg-gray-700 active:bg-gray-600
+           border border-gray-700;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-400 hover:text-white hover:bg-gray-800;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 active:bg-red-800;
+  }
+
+  /* Input base */
+  .input {
+    @apply w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg
+           text-white placeholder-gray-500
+           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+           transition-smooth;
+  }
+
+  /* Card base */
+  .card {
+    @apply bg-gray-900 border border-gray-800 rounded-xl p-4
+           transition-smooth hover:border-gray-700;
+  }
+
+  /* Panel styles for builder */
+  .panel {
+    @apply bg-gray-900 border-gray-800;
+  }
+
+  .panel-header {
+    @apply px-4 py-3 border-b border-gray-800 font-medium text-sm text-gray-300;
+  }
+
+  .panel-content {
+    @apply p-4;
+  }
+}

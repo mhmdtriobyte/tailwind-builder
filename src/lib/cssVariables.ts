@@ -846,7 +846,7 @@ export function exportAsTailwindConfig(theme: Theme): string {
   // Add semantic colors
   const semanticKeys = ['primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error', 'info'] as const;
   for (const key of semanticKeys) {
-    config.colors[key] = theme.colorPalette.colors[key];
+    config.colors[key] = theme.colorPalette.colors[key] as unknown as Record<string, string>;
   }
 
   return `// Tailwind CSS Theme Configuration

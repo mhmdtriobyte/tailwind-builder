@@ -466,14 +466,14 @@ const textCompoundVariants: CompoundVariant[] = [
 
   // Glow effect colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'glow', color: color as ColorVariant },
+    conditions: { style: 'glow' as const, color: color as ColorVariant },
     classes: [`drop-shadow-[0_0_10px_rgba(var(--color-${color}-500-rgb),0.5)]`],
     priority: 10,
   })),
 
   // Outlined text colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'outlined', color: color as ColorVariant },
+    conditions: { style: 'outlined' as const, color: color as ColorVariant },
     classes: [`[-webkit-text-stroke-color:theme(colors.${color}.600)]`],
     priority: 10,
   })),
@@ -501,7 +501,7 @@ const textCompoundVariants: CompoundVariant[] = [
 
   // Overline with colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'overline', color: color as ColorVariant },
+    conditions: { style: 'overline' as const, color: color as ColorVariant },
     classes: [`text-${color}-600`],
     priority: 8,
   })),

@@ -5,7 +5,7 @@
  * nature-inspired palettes, and gradient collections.
  */
 
-import { RGB, rgbToHex, hexToRgb } from './colorSystem';
+import { RGB, hexToRgb } from './colorSystem';
 
 // =============================================================================
 // TYPE DEFINITIONS

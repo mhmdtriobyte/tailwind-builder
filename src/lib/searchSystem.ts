@@ -767,7 +767,7 @@ export function getSearchSuggestions(
   }
   collectNames(elements);
 
-  for (const name of elementNames) {
+  for (const name of Array.from(elementNames)) {
     if (suggestions.length >= MAX_SUGGESTIONS) break;
     if (!suggestions.find((s) => s.text === name)) {
       suggestions.push({

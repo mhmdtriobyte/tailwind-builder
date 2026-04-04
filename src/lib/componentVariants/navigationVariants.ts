@@ -375,21 +375,21 @@ const navigationLayouts: Record<string, VariantDefinition> = {
 const navigationCompoundVariants: CompoundVariant[] = [
   // Glass navbar with different colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'glass', color: color as ColorVariant },
+    conditions: { style: 'glass' as const, color: color as ColorVariant },
     classes: [`bg-${color}-600/80`, 'text-white'],
     priority: 10,
   })),
 
   // Floating navbar with colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'floating', color: color as ColorVariant },
+    conditions: { style: 'floating' as const, color: color as ColorVariant },
     classes: [`bg-${color}-600`, 'text-white', 'border-transparent'],
     priority: 10,
   })),
 
   // Tab pills with colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'tabs-pills', color: color as ColorVariant },
+    conditions: { style: 'tabs-pills' as const, color: color as ColorVariant },
     classes: [`bg-${color}-100`],
     priority: 10,
   })),

@@ -1055,16 +1055,4 @@ export const shapePresets = {
   })),
 };
 
-// ============================================================================
-// EXPORTS
-// ============================================================================
-
-export type {
-  BlobConfig,
-  WaveConfig,
-  DividerConfig,
-  CornerConfig,
-  GeometricPatternConfig,
-  GradientConfig,
-  DecorationConfig,
-};
+// Types are already exported at their definitions above

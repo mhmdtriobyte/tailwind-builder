@@ -841,7 +841,7 @@ export function extractClassNames(css: string): string[] {
     classes.add(match[1]);
   }
 
-  return [...classes];
+  return Array.from(classes);
 }
 
 /**

@@ -1,11 +1,9 @@
 'use client';
 
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import * as Tabs from '@radix-ui/react-tabs';
 import * as Popover from '@radix-ui/react-popover';
 import * as Dialog from '@radix-ui/react-dialog';
-import * as Slider from '@radix-ui/react-slider';
 import {
   Palette,
   Type,
@@ -22,7 +20,6 @@ import {
   RotateCcw,
   Undo2,
   Redo2,
-  Heart,
   Star,
   Check,
   ChevronDown,
@@ -30,20 +27,16 @@ import {
   X,
   Copy,
   Trash2,
-  Plus,
   RefreshCw,
   Eye,
   EyeOff,
-  Settings,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import {
   useThemeStore,
   useSavedThemes,
-  useThemePanelState,
   type ThemePanelSection,
   type ExportFormat,
-  type SavedTheme,
 } from '@/store/themeStore';
 import {
   COLOR_PALETTES,
@@ -91,6 +84,7 @@ interface ColorSwatchProps {
   showLabel?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ColorSwatch({
   color,
   label,

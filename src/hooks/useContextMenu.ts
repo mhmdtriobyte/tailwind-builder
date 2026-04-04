@@ -74,10 +74,10 @@ function generateId(): string {
 /**
  * Finds an element by ID in the element tree
  */
-function findElementById(elements: BuilderElement[], id: string): BuilderElement | null {
+function _findElementById(elements: BuilderElement[], id: string): BuilderElement | null {
   for (const element of elements) {
     if (element.id === id) return element;
-    const found = findElementById(element.children, id);
+    const found = _findElementById(element.children, id);
     if (found) return found;
   }
   return null;
@@ -86,18 +86,21 @@ function findElementById(elements: BuilderElement[], id: string): BuilderElement
 /**
  * Finds the parent element of a given element
  */
-function findParentElement(
+function _findParentElement(
   elements: BuilderElement[],
   id: string,
   parent: BuilderElement | null = null
 ): BuilderElement | null {
   for (const element of elements) {
     if (element.id === id) return parent;
-    const found = findParentElement(element.children, id, element);
+    const found = _findParentElement(element.children, id, element);
     if (found) return found;
   }
   return null;
 }
+
+// Export for potential future use
+export { _findElementById as findElementById, _findParentElement as findParentElement };
 
 // ============================================================================
 // HOOK IMPLEMENTATION
@@ -519,15 +522,19 @@ export function useContextMenu(options: UseContextMenuOptions = {}): UseContextM
         addElement(newElement);
         toast.success(`Added ${componentDef.name}`);
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       addToFavorites: (componentType: string) => {
         toast.success('Added to favorites');
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       removeFromFavorites: (componentType: string) => {
         toast.success('Removed from favorites');
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       viewVariants: (componentType: string) => {
         toast('Variants panel coming soon!', { icon: 'o' });
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       viewDocumentation: (componentType: string) => {
         toast('Documentation coming soon!', { icon: 'o' });
       },

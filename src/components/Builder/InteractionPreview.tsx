@@ -12,10 +12,7 @@ import {
   RotateCcw,
   ChevronDown,
   ChevronRight,
-  Clock,
-  Layers,
   Eye,
-  EyeOff,
   Trash2,
   Download,
   Upload,
@@ -27,7 +24,6 @@ import {
   stateToTailwindClasses,
   transitionsToTailwindClasses,
   getAllStateNames,
-  createDefaultStatesConfig,
 } from '@/lib/interactionStates';
 
 // ============================================================================
@@ -51,7 +47,7 @@ interface RecordedInteraction {
 }
 
 interface InteractionPreviewProps {
-  elementId: string;
+  elementId?: string;
   config: InteractionStatesConfig;
   children?: React.ReactNode;
   onStateChange?: (state: InteractionStateName) => void;
@@ -184,7 +180,7 @@ function InteractionTimeline({
         onClick={handleClick}
       >
         {/* Event bars */}
-        {timelineEvents.map((te, index) => (
+        {timelineEvents.map((te) => (
           <div
             key={te.event.id}
             className="absolute h-6 top-3 rounded opacity-80 hover:opacity-100 transition-opacity"
@@ -566,7 +562,6 @@ function PreviewElement({
 // ============================================================================
 
 export function InteractionPreview({
-  elementId,
   config,
   children,
   onStateChange,

@@ -41,7 +41,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import type { LayerNode, LayerColor } from '@/lib/layerSystem';
-import { LAYER_COLORS } from '@/lib/layerSystem';
 
 // ============================================================================
 // TYPES

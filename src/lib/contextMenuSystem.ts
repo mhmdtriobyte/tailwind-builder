@@ -237,7 +237,7 @@ class ContextMenuRegistry {
    * Get menu by type
    */
   getMenuByType(type: ContextMenuType): MenuDefinition | undefined {
-    for (const menu of this.menus.values()) {
+    for (const menu of Array.from(this.menus.values())) {
       if (menu.type === type) {
         return menu;
       }

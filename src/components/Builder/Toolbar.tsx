@@ -25,6 +25,10 @@ import {
   Monitor,
   Tablet,
   Smartphone,
+  LayoutTemplate,
+  Settings,
+  History,
+  Accessibility,
   type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
@@ -44,6 +48,19 @@ const VIEWPORT_OPTIONS: { type: ViewportType; icon: LucideIcon; label: string; w
   { type: 'tablet', icon: Tablet, label: 'Tablet', width: '768px' },
   { type: 'mobile', icon: Smartphone, label: 'Mobile', width: '375px' },
 ];
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+interface ToolbarProps {
+  onOpenTemplates?: () => void;
+  onOpenExport?: () => void;
+  onOpenSettings?: () => void;
+  onToggleHistory?: () => void;
+  onRunAccessibilityAudit?: () => void;
+  showHistory?: boolean;
+}
 
 // ============================================================================
 // SUB-COMPONENTS
@@ -152,6 +169,22 @@ function ViewportButtons({ viewport, onViewportChange }: ViewportButtonsProps) {
   );
 }
 
+interface ViewportIndicatorProps {
+  viewport: ViewportType;
+}
+
+function ViewportIndicator({ viewport }: ViewportIndicatorProps) {
+  const option = VIEWPORT_OPTIONS.find((o) => o.type === viewport);
+  if (!option) return null;
+
+  return (
+    <div className="hidden md:flex items-center gap-1.5 px-2 py-1 bg-gray-800/50 rounded-lg">
+      <option.icon className="w-3 h-3 text-gray-400" />
+      <span className="text-xs text-gray-400">{option.width}</span>
+    </div>
+  );
+}
+
 interface ZoomControlsProps {
   zoom: number;
   onZoomChange: (zoom: number) => void;
@@ -241,6 +274,7 @@ interface ExportDropdownProps {
   onDownloadJSX: () => void;
   onDownloadTSX: () => void;
   onDownloadProject: () => void;
+  onOpenExportPanel?: () => void;
 }
 
 function ExportDropdown({
@@ -249,6 +283,7 @@ function ExportDropdown({
   onDownloadJSX,
   onDownloadTSX,
   onDownloadProject,
+  onOpenExportPanel,
 }: ExportDropdownProps) {
   return (
     <DropdownMenu.Root>
@@ -276,6 +311,24 @@ function ExportDropdown({
           sideOffset={8}
           align="end"
         >
+          {onOpenExportPanel && (
+            <>
+              <DropdownMenu.Item
+                onClick={onOpenExportPanel}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer',
+                  'text-sm text-blue-400 outline-none font-medium',
+                  'hover:bg-gray-700 hover:text-blue-300',
+                  'focus:bg-gray-700 focus:text-blue-300'
+                )}
+              >
+                <Code2 className="w-4 h-4" />
+                <span>Export Panel...</span>
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator className="h-px bg-gray-700 my-1" />
+            </>
+          )}
+
           <DropdownMenu.Label className="px-3 py-1.5 text-xs text-gray-500 font-medium">
             Copy to Clipboard
           </DropdownMenu.Label>
@@ -359,7 +412,14 @@ function ExportDropdown({
 // MAIN COMPONENT
 // ============================================================================
 
-export function Toolbar() {
+export function Toolbar({
+  onOpenTemplates,
+  onOpenExport,
+  onOpenSettings,
+  onToggleHistory,
+  onRunAccessibilityAudit,
+  showHistory = false,
+}: ToolbarProps) {
   const {
     elements,
     viewport,
@@ -511,6 +571,37 @@ export function Toolbar() {
               disabled={!canRedo}
             />
           </div>
+
+          <ToolbarDivider />
+
+          {/* Templates button */}
+          {onOpenTemplates && (
+            <Tooltip.Root delayDuration={300}>
+              <Tooltip.Trigger asChild>
+                <button
+                  onClick={onOpenTemplates}
+                  className={cn(
+                    'flex items-center gap-1.5 px-3 py-2 rounded-lg',
+                    'text-sm text-gray-300 font-medium',
+                    'hover:bg-gray-800 hover:text-white transition-colors duration-150',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50'
+                  )}
+                >
+                  <LayoutTemplate className="w-4 h-4" />
+                  <span className="hidden md:inline">Templates</span>
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content
+                  className="px-3 py-1.5 text-sm bg-gray-800 text-white rounded-lg shadow-xl border border-gray-700"
+                  sideOffset={8}
+                >
+                  <span>Browse Templates</span>
+                  <Tooltip.Arrow className="fill-gray-800" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          )}
         </div>
 
         {/* Center section - Viewport & View Controls */}
@@ -519,6 +610,8 @@ export function Toolbar() {
             viewport={viewport}
             onViewportChange={setViewport}
           />
+
+          <ViewportIndicator viewport={viewport} />
 
           <ToolbarDivider />
 
@@ -549,6 +642,25 @@ export function Toolbar() {
 
         {/* Right section - Actions */}
         <div className="flex items-center gap-2">
+          {/* History button */}
+          {onToggleHistory && (
+            <ToolbarButton
+              icon={History}
+              label="Toggle History"
+              onClick={onToggleHistory}
+              active={showHistory}
+            />
+          )}
+
+          {/* Accessibility audit button */}
+          {onRunAccessibilityAudit && (
+            <ToolbarButton
+              icon={Accessibility}
+              label="Accessibility Audit"
+              onClick={onRunAccessibilityAudit}
+            />
+          )}
+
           <ToolbarButton
             icon={Trash2}
             label="Clear Canvas"
@@ -563,6 +675,7 @@ export function Toolbar() {
             onDownloadJSX={handleDownloadJSX}
             onDownloadTSX={handleDownloadTSX}
             onDownloadProject={handleDownloadProject}
+            onOpenExportPanel={onOpenExport}
           />
 
           <ToolbarDivider />
@@ -581,6 +694,18 @@ export function Toolbar() {
               onClick={handleLoad}
             />
           </div>
+
+          {/* Settings button */}
+          {onOpenSettings && (
+            <>
+              <ToolbarDivider />
+              <ToolbarButton
+                icon={Settings}
+                label="Settings"
+                onClick={onOpenSettings}
+              />
+            </>
+          )}
         </div>
       </div>
     </Tooltip.Provider>

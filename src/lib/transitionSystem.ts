@@ -1289,7 +1289,7 @@ export function generateCompleteTransitionCSS(
     .map(([prop, value]) => `  ${prop}: ${value};`)
     .join('\n');
 
-  let base = `.${finalClassName} {\n${baseStylesStr}\n  transition: ${transition.cssTransition};\n}`;
+  const base = `.${finalClassName} {\n${baseStylesStr}\n  transition: ${transition.cssTransition};\n}`;
   let hover = '';
   let active = '';
   let focus = '';

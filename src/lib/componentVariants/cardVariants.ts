@@ -407,7 +407,7 @@ const cardCompoundVariants: CompoundVariant[] = [
 
   // Interactive glow colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'interactive-glow', color: color as ColorVariant },
+    conditions: { style: 'interactive-glow' as const, color: color as ColorVariant },
     classes: [`hover:shadow-${color}-500/25`],
     priority: 10,
   })),

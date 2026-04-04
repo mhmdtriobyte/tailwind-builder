@@ -65,7 +65,9 @@ export type TimingFunction =
   | 'elastic-out'
   | 'elastic-in-out'
   | 'spring'
-  | 'custom';
+  | 'custom'
+  | `cubic-bezier(${string})`
+  | `steps(${string})`;
 
 /** Duration preset types */
 export type DurationPreset = 'instant' | 'fast' | 'normal' | 'slow' | 'very-slow';

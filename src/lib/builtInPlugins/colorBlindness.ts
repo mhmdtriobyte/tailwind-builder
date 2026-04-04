@@ -321,6 +321,7 @@ export const colorBlindnessPlugin: Plugin = {
     api.log('Color Blindness Simulator deactivated');
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSettingsChange: (settings: Record<string, unknown>) => {
     // If default mode changes while plugin is active, don't auto-apply
     // User can manually cycle to the new default

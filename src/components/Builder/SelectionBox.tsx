@@ -39,7 +39,7 @@ const RESIZE_HANDLES: HandlePosition[] = [
 ];
 
 export function SelectionBox({ canvasRef, className }: SelectionBoxProps) {
-  const { selectedIds, elements, duplicateMultiple, removeMultiple } = useBuilderStore();
+  const { selectedIds, duplicateMultiple, removeMultiple } = useBuilderStore();
   const [bounds, setBounds] = useState<SelectionBounds | null>(null);
   const [elementBoundsMap, setElementBoundsMap] = useState<Map<string, DOMRect>>(new Map());
   const [isResizing, setIsResizing] = useState(false);
@@ -102,7 +102,9 @@ export function SelectionBox({ canvasRef, className }: SelectionBoxProps) {
   // Handle resize
   const handleResizeStart = useCallback((
     e: React.MouseEvent,
-    _handle: HandlePosition
+    // Reserved for future resize direction handling
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    handle: HandlePosition
   ) => {
     e.preventDefault();
     e.stopPropagation();

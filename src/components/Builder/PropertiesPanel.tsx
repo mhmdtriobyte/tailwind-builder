@@ -254,7 +254,6 @@ function StyleTab() {
           label="Background Color"
           value={backgroundColor}
           onChange={setBackgroundColor}
-          prefix="bg"
         />
       </PropertySection>
 
@@ -271,7 +270,6 @@ function StyleTab() {
             label="Border Color"
             value={borderColor}
             onChange={setBorderColor}
-            prefix="border"
           />
         )}
         <SelectInput
@@ -349,7 +347,6 @@ function TypographyTab() {
           label="Text Color"
           value={textColor}
           onChange={setTextColor}
-          prefix="text"
         />
       </PropertySection>
 

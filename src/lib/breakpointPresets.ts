@@ -923,6 +923,7 @@ export function getOrientedDimensions(
 /**
  * Check if device supports landscape orientation
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function supportsLandscape(preset: DevicePreset): boolean {
   // All devices support landscape, but some may have specific behaviors
   return true;

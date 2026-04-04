@@ -354,6 +354,7 @@ export class LRUCache<K, V> {
 /**
  * Creates a memoized version of a function
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function memoize<T extends (...args: any[]) => any>(
   fn: T,
   options: {
@@ -369,6 +370,7 @@ export function memoize<T extends (...args: any[]) => any>(
 
   const keyFn = options.keyFn ?? ((...args) => JSON.stringify(args));
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const memoized = function (this: any, ...args: Parameters<T>): ReturnType<T> {
     const key = keyFn(...args);
 
@@ -391,6 +393,7 @@ export function memoize<T extends (...args: any[]) => any>(
 /**
  * Creates a memoized async function
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function memoizeAsync<T extends (...args: any[]) => Promise<any>>(
   fn: T,
   options: {
@@ -408,6 +411,7 @@ export function memoizeAsync<T extends (...args: any[]) => Promise<any>>(
   const keyFn = options.keyFn ?? ((...args) => JSON.stringify(args));
 
   const memoized = async function (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this: any,
     ...args: Parameters<T>
   ): Promise<Awaited<ReturnType<T>>> {

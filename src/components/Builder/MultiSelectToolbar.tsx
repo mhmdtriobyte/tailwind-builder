@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useBuilderStore } from '@/store/builderStore';
 import { cn } from '@/utils/cn';
 import {
@@ -11,7 +11,6 @@ import {
   AlignCenterVertical,
   AlignEndVertical,
   Columns,
-  Rows,
   Group,
   Ungroup,
   Trash2,
@@ -27,7 +26,12 @@ import {
   Palette,
   Move,
   LayoutGrid,
+  Circle,
 } from 'lucide-react';
+
+// ============================================================================
+// TYPES
+// ============================================================================
 
 interface MultiSelectToolbarProps {
   className?: string;
@@ -40,31 +44,74 @@ interface DropdownState {
   isOpen: boolean;
 }
 
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const BACKGROUND_COLORS = [
+  { label: 'White', value: 'bg-white', preview: '#ffffff' },
+  { label: 'Gray 100', value: 'bg-gray-100', preview: '#f3f4f6' },
+  { label: 'Gray 200', value: 'bg-gray-200', preview: '#e5e7eb' },
+  { label: 'Blue 100', value: 'bg-blue-100', preview: '#dbeafe' },
+  { label: 'Blue 500', value: 'bg-blue-500', preview: '#3b82f6' },
+  { label: 'Green 100', value: 'bg-green-100', preview: '#dcfce7' },
+  { label: 'Green 500', value: 'bg-green-500', preview: '#22c55e' },
+  { label: 'Red 100', value: 'bg-red-100', preview: '#fee2e2' },
+  { label: 'Red 500', value: 'bg-red-500', preview: '#ef4444' },
+  { label: 'Yellow 100', value: 'bg-yellow-100', preview: '#fef9c3' },
+  { label: 'Purple 100', value: 'bg-purple-100', preview: '#f3e8ff' },
+  { label: 'Purple 500', value: 'bg-purple-500', preview: '#a855f7' },
+];
+
+const PADDING_OPTIONS = [
+  { label: 'None', value: 'p-0' },
+  { label: 'Small', value: 'p-2' },
+  { label: 'Medium', value: 'p-4' },
+  { label: 'Large', value: 'p-6' },
+  { label: 'Extra Large', value: 'p-8' },
+];
+
+// ============================================================================
+// MAIN COMPONENT
+// ============================================================================
+
 export function MultiSelectToolbar({ className }: MultiSelectToolbarProps) {
-  const {
-    selectedIds,
-    elements,
-    removeMultiple,
-    duplicateMultiple,
-    groupElements,
-    ungroupElements,
-    alignElements,
-    distributeElements,
-    matchSizes,
-    lockMultiple,
-    unlockMultiple,
-    hideMultiple,
-    showMultiple,
-    applyStyleToMultiple,
-  } = useBuilderStore();
+  // Use type assertion with fallbacks for optional store properties
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const store = useBuilderStore() as any;
+
+  // Extract with safe defaults
+  const selectedIds: string[] = store.selectedIds ?? [];
+  const elements = store.elements ?? [];
+  const removeMultiple = store.removeMultiple;
+  const duplicateMultiple = store.duplicateMultiple;
+  const groupElements = store.groupElements;
+  const ungroupElements = store.ungroupElements;
+  const alignElements = store.alignElements;
+  const distributeElements = store.distributeElements;
+  const matchSizes = store.matchSizes;
+  const lockMultiple = store.lockMultiple;
+  const unlockMultiple = store.unlockMultiple;
+  const hideMultiple = store.hideMultiple;
+  const showMultiple = store.showMultiple;
+  const applyStyleToMultiple = store.applyStyleToMultiple;
 
   const [dropdown, setDropdown] = useState<DropdownState>({
     section: null,
     isOpen: false,
   });
 
+  const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+
   // Only show when 2+ elements selected
   const isVisible = selectedIds.length >= 2;
+
+  // Handle animation
+  useEffect(() => {
+    if (isVisible) {
+      setIsAnimatingIn(true);
+    }
+  }, [isVisible]);
 
   // Check if any selected elements are locked
   const hasLockedElements = useMemo(() => {
@@ -179,9 +226,13 @@ export function MultiSelectToolbar({ className }: MultiSelectToolbarProps) {
       className={cn(
         'fixed bottom-6 left-1/2 -translate-x-1/2',
         'flex items-center gap-1 p-2 rounded-xl',
-        'bg-gray-900 text-white shadow-2xl',
-        'border border-gray-700',
+        'bg-gray-900/95 backdrop-blur-md text-white',
+        'shadow-2xl shadow-black/40',
+        'border border-gray-700/50',
         'z-50',
+        // Animation
+        'transition-all duration-300 ease-out',
+        isAnimatingIn ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
         className
       )}
     >
@@ -334,25 +385,60 @@ export function MultiSelectToolbar({ className }: MultiSelectToolbarProps) {
         />
 
         {dropdown.section === 'style' && dropdown.isOpen && (
-          <DropdownMenu onClose={closeDropdown} className="w-48">
+          <DropdownMenu onClose={closeDropdown} className="w-64">
+            {/* Background Colors */}
+            <DropdownLabel>Background Color</DropdownLabel>
+            <div className="px-2 pb-2">
+              <div className="grid grid-cols-6 gap-1">
+                {BACKGROUND_COLORS.map((color) => (
+                  <button
+                    key={color.value}
+                    onClick={() => handleApplyStyle('colors', [color.value])}
+                    className={cn(
+                      'w-7 h-7 rounded-md border-2 border-gray-600',
+                      'hover:border-blue-400 hover:scale-110',
+                      'transition-all duration-150',
+                      'focus:outline-none focus:ring-2 focus:ring-blue-500/50'
+                    )}
+                    style={{ backgroundColor: color.preview }}
+                    title={color.label}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <DropdownDivider />
+
+            {/* Padding */}
+            <DropdownLabel>Padding</DropdownLabel>
+            <div className="px-2 pb-2 flex gap-1">
+              {PADDING_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleApplyStyle('spacing', [option.value])}
+                  className={cn(
+                    'flex-1 px-2 py-1.5 rounded-md text-xs',
+                    'bg-gray-700 hover:bg-gray-600 text-gray-300',
+                    'transition-colors'
+                  )}
+                  title={option.label}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+
+            <DropdownDivider />
+
+            {/* Quick styles */}
             <DropdownLabel>Quick Styles</DropdownLabel>
-            <DropdownItem
-              icon={<div className="w-4 h-4 bg-gray-200 rounded" />}
-              label="Add padding"
-              onClick={() => handleApplyStyle('spacing', ['p-4'])}
-            />
             <DropdownItem
               icon={<div className="w-4 h-4 bg-gray-200 rounded border border-gray-400" />}
               label="Add border"
               onClick={() => handleApplyStyle('borders', ['border', 'border-gray-300'])}
             />
             <DropdownItem
-              icon={<div className="w-4 h-4 bg-gray-100 rounded" />}
-              label="Add background"
-              onClick={() => handleApplyStyle('colors', ['bg-gray-100'])}
-            />
-            <DropdownItem
-              icon={<div className="w-4 h-4 rounded shadow" />}
+              icon={<div className="w-4 h-4 rounded shadow-md bg-gray-200" />}
               label="Add shadow"
               onClick={() => handleApplyStyle('effects', ['shadow-md'])}
             />
@@ -360,6 +446,11 @@ export function MultiSelectToolbar({ className }: MultiSelectToolbarProps) {
               icon={<div className="w-4 h-4 rounded-lg bg-gray-200" />}
               label="Round corners"
               onClick={() => handleApplyStyle('borders', ['rounded-lg'])}
+            />
+            <DropdownItem
+              icon={<Circle className="w-4 h-4" />}
+              label="Full round"
+              onClick={() => handleApplyStyle('borders', ['rounded-full'])}
             />
           </DropdownMenu>
         )}

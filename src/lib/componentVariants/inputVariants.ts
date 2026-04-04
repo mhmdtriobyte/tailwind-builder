@@ -347,7 +347,7 @@ const inputStates: Record<StateVariant, VariantDefinition> = {
 const inputCompoundVariants: CompoundVariant[] = [
   // Filled state colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'filled', color: color as ColorVariant },
+    conditions: { style: 'filled' as const, color: color as ColorVariant },
     classes: [
       `focus:border-${color}-500`,
       `focus:ring-${color}-500/20`,
@@ -357,7 +357,7 @@ const inputCompoundVariants: CompoundVariant[] = [
 
   // Outlined state colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'outlined', color: color as ColorVariant },
+    conditions: { style: 'outlined' as const, color: color as ColorVariant },
     classes: [
       `border-${color}-300`,
       `focus:border-${color}-500`,
@@ -368,7 +368,7 @@ const inputCompoundVariants: CompoundVariant[] = [
 
   // Underlined state colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'underlined', color: color as ColorVariant },
+    conditions: { style: 'underlined' as const, color: color as ColorVariant },
     classes: [
       `focus:border-${color}-500`,
     ],

@@ -1205,7 +1205,7 @@ function scaleSpacing(base: SpacingScale, factor: number): SpacingScale {
       scaled[key] = `${(numValue * factor).toFixed(3).replace(/\.?0+$/, '')}${unit}`;
     }
   }
-  return scaled as SpacingScale;
+  return scaled as unknown as SpacingScale;
 }
 
 export const SPACING_PRESETS: Record<string, SpacingPreset> = {

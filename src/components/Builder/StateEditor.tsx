@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import * as Tabs from '@radix-ui/react-tabs';
 import * as Popover from '@radix-ui/react-popover';
 import * as Switch from '@radix-ui/react-switch';
 import * as Slider from '@radix-ui/react-slider';
@@ -20,7 +19,6 @@ import {
   ChevronDown,
   Clock,
   Layers,
-  Palette,
   Eye,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
@@ -35,14 +33,9 @@ import {
   createDefaultStatesConfig,
   stateToTailwindClasses,
   transitionsToTailwindClasses,
-  TRANSITION_DURATIONS,
-  TIMING_FUNCTIONS,
   getAllStateNames,
-  cloneStatesConfig,
 } from '@/lib/interactionStates';
 import {
-  CURSOR_DEFINITIONS,
-  type CSSCursorType,
   getCursorOptionsGrouped,
 } from '@/lib/cursorStyles';
 import { shadowOptions, borderRadiusOptions } from '@/lib/tailwindClasses';
@@ -484,19 +477,16 @@ function StateStyleEditor({
               label="Background Color"
               value={state.styles.backgroundColor || ''}
               onChange={(value) => updateStyles({ backgroundColor: value })}
-              prefix="bg"
             />
             <ColorPicker
               label="Text Color"
               value={state.styles.textColor || ''}
               onChange={(value) => updateStyles({ textColor: value })}
-              prefix="text"
             />
             <ColorPicker
               label="Border Color"
               value={state.styles.borderColor || ''}
               onChange={(value) => updateStyles({ borderColor: value })}
-              prefix="border"
             />
           </StyleSection>
 
@@ -536,7 +526,6 @@ function StateStyleEditor({
               label="Ring Color"
               value={state.styles.ringColor || ''}
               onChange={(value) => updateStyles({ ringColor: value.replace('bg-', 'ring-') })}
-              prefix="bg"
             />
             <SelectInput
               label="Ring Offset"
@@ -590,7 +579,6 @@ function StateStyleEditor({
 // ============================================================================
 
 export function StateEditor({
-  elementId,
   initialConfig,
   onChange,
   onPreviewState,
@@ -777,11 +765,10 @@ export function StateEditor({
 // ============================================================================
 
 export function CompactStateEditor({
-  elementId,
   config,
   onChange,
 }: {
-  elementId: string;
+  elementId?: string;
   config: InteractionStatesConfig;
   onChange: (config: InteractionStatesConfig) => void;
 }) {
@@ -887,7 +874,6 @@ export function CompactStateEditor({
                 };
                 onChange(newConfig);
               }}
-              prefix="bg"
             />
           </div>
         </div>

@@ -4,12 +4,10 @@ import { useState } from 'react';
 import {
   Monitor,
   Tablet,
-  Smartphone,
   Eye,
   EyeOff,
   Copy,
   Trash2,
-  Check,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useCustomizationStore } from '@/store/customizationStore';

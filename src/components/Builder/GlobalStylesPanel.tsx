@@ -18,19 +18,13 @@ import {
   Plus,
   Trash2,
   Search,
-  ExternalLink,
   Check,
   Copy,
   Download,
-  Upload,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { SelectInput } from './SelectInput';
-import { TextInput, TextAreaInput } from './TextInput';
-import { ColorPicker } from '@/components/common/ColorPicker';
 import {
   CSS_RESET_OPTIONS,
-  DEFAULT_GLOBAL_STYLES_CONFIG,
   GLOBAL_STYLES_PRESETS,
   generateCompleteGlobalStylesCSS,
   applyPreset,
@@ -42,43 +36,34 @@ import {
   POPULAR_GOOGLE_FONTS,
   FONT_PAIRINGS,
   SYSTEM_FONT_STACKS,
-  FONT_DISPLAY_STRATEGIES,
   searchFonts,
   getFontsByCategory,
-  generateGoogleFontsHTML,
-  type GoogleFont,
-  type FontPairing,
   type FontCategory,
-  type FontDisplay,
 } from '@/lib/fontSystem';
 
 // =============================================================================
 // HELPER COMPONENTS
 // =============================================================================
 
-interface AccordionSectionProps {
-  value: string;
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}
-
-function AccordionSection({ value, title, icon, children }: AccordionSectionProps) {
-  return (
-    <Accordion.Item value={value} className="border-b border-gray-800">
+// Accordion Section helper component for structured sections
+// Reserved for future panel structure refactoring
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AccordionSectionHelper = {
+  Item: (props: { value: string; title: string; icon: React.ReactNode; children: React.ReactNode }) => (
+    <Accordion.Item value={props.value} className="border-b border-gray-800">
       <Accordion.Trigger className="flex items-center justify-between w-full py-3 px-4 text-left hover:bg-gray-800/50 transition-colors group">
         <div className="flex items-center gap-2">
-          <span className="text-gray-400">{icon}</span>
-          <span className="text-sm font-medium text-white">{title}</span>
+          <span className="text-gray-400">{props.icon}</span>
+          <span className="text-sm font-medium text-white">{props.title}</span>
         </div>
         <ChevronDown className="w-4 h-4 text-gray-400 transition-transform group-data-[state=open]:rotate-180" />
       </Accordion.Trigger>
       <Accordion.Content className="px-4 pb-4 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden">
-        {children}
+        {props.children}
       </Accordion.Content>
     </Accordion.Item>
-  );
-}
+  )
+};
 
 interface PropertyRowProps {
   label: string;

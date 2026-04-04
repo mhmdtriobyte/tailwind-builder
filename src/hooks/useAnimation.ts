@@ -19,9 +19,7 @@ import {
   type AnimationConfig,
   type AnimationDefinition,
   type AnimationSequence,
-  type AnimationSequenceItem,
   type AnimationTrigger,
-  type PlayState,
   ANIMATIONS,
   createDefaultAnimationConfig,
   generateAnimationCSS,
@@ -32,7 +30,6 @@ import {
   HOVER_TRANSITIONS,
   ACTIVE_TRANSITIONS,
   FOCUS_TRANSITIONS,
-  generateTransitionCSS,
 } from '@/lib/transitionSystem';
 
 // ============================================================================
@@ -154,8 +151,9 @@ export function useAnimation(options: UseAnimationOptions = {}): UseAnimationRet
     initialAnimation ? { ...createDefaultAnimationConfig(initialAnimation), ...initialConfig } : null
   );
 
-  // Memoized animation definition
-  const animationDefinition = useMemo<AnimationDefinition | null>(() => {
+  // Memoized animation definition (reserved for future animation features)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _animationDefinition = useMemo<AnimationDefinition | null>(() => {
     if (!state.currentAnimation) return null;
     return ANIMATIONS[state.currentAnimation] || null;
   }, [state.currentAnimation]);
@@ -874,7 +872,7 @@ export function useTransition(options: UseTransitionOptions = {}): UseTransition
     }
 
     // Remove duplicates
-    return [...new Set(classes)].join(' ');
+    return Array.from(new Set(classes)).join(' ');
   }, [hoverTransition, activeTransition, focusTransition]);
 
   return { ref, style, className };

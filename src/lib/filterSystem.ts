@@ -381,7 +381,7 @@ function evaluateStringComparison(
     case 'isEmpty':
       return !value || value.trim() === '';
     case 'isNotEmpty':
-      return value && value.trim() !== '';
+      return !!value && value.trim() !== '';
     case 'matches':
       try {
         const regex = new RegExp(target, 'i');

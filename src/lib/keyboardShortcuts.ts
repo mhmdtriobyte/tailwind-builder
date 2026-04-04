@@ -678,7 +678,7 @@ export class ShortcutManager {
     try {
       const customizations: Record<string, Partial<ShortcutDefinition>> = {};
 
-      for (const [id, shortcut] of this.shortcuts) {
+      for (const [id, shortcut] of Array.from(this.shortcuts)) {
         const defaultDef = DEFAULT_SHORTCUTS.find((s) => s.id === id);
         if (!defaultDef) continue;
 
@@ -855,7 +855,7 @@ export class ShortcutManager {
     event: KeyboardEvent,
     context: ShortcutContext
   ): ShortcutDefinition | undefined {
-    for (const shortcut of this.shortcuts.values()) {
+    for (const shortcut of Array.from(this.shortcuts.values())) {
       if (!shortcut.enabled) continue;
       if (!shortcut.contexts.includes(context) && !shortcut.contexts.includes('global'))
         continue;
@@ -901,12 +901,12 @@ export class ShortcutManager {
   trigger(shortcutId: string, event: KeyboardEvent): void {
     const listeners = this.listeners.get(shortcutId);
     if (listeners) {
-      for (const callback of listeners) {
+      for (const callback of Array.from(listeners)) {
         callback(event);
       }
     }
 
-    for (const callback of this.globalListeners) {
+    for (const callback of Array.from(this.globalListeners)) {
       callback(shortcutId, event);
     }
   }
@@ -917,7 +917,7 @@ export class ShortcutManager {
   exportConfig(): string {
     const customizations: Record<string, Partial<ShortcutDefinition>> = {};
 
-    for (const [id, shortcut] of this.shortcuts) {
+    for (const [id, shortcut] of Array.from(this.shortcuts)) {
       if (shortcut.customShortcut || !shortcut.enabled) {
         customizations[id] = {
           customShortcut: shortcut.customShortcut,

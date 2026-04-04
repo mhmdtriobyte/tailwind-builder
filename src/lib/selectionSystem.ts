@@ -105,7 +105,7 @@ export function handleClickSelection(
 
     if (ctrl) {
       // Add range to existing selection
-      const uniqueIds = [...new Set([...state.selectedIds, ...rangeIds])];
+      const uniqueIds = Array.from(new Set([...state.selectedIds, ...rangeIds]));
       return {
         ...state,
         selectedIds: uniqueIds,
@@ -252,7 +252,7 @@ export function selectChildren(
     }
   }
 
-  return [...new Set(result)];
+  return Array.from(new Set(result));
 }
 
 /**
@@ -271,7 +271,7 @@ export function selectParents(
     }
   }
 
-  return [...new Set(result)];
+  return Array.from(new Set(result));
 }
 
 /**
@@ -302,7 +302,7 @@ export function selectDescendants(
     }
   }
 
-  return [...new Set(result)];
+  return Array.from(new Set(result));
 }
 
 // ============================================================================

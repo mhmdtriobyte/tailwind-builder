@@ -12,10 +12,8 @@ import {
   RotateCcw,
   Plus,
   Trash2,
-  Copy,
   AlertTriangle,
   Check,
-  X,
   Columns,
   Lightbulb,
   Settings,
@@ -57,17 +55,21 @@ interface BreakpointOverride {
   enabled: boolean;
 }
 
-interface VisibilityRule {
+// Reserved for future visibility rules implementation
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type VisibilityRuleType = {
   id: string;
   hideOn: string[];
   showOn: string[];
-}
+};
 
-interface CustomBreakpointForm {
+// Reserved for future custom breakpoint form
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type CustomBreakpointFormType = {
   name: string;
   minWidth: string;
   maxWidth: string;
-}
+};
 
 // ============================================================================
 // CONSTANTS

@@ -300,7 +300,7 @@ export function evaluateMathExpression(
   options: ResolveOptions = {}
 ): string | number {
   // First, resolve all token references
-  let resolvedExpr = resolveAllReferences(expression, tokens, options);
+  const resolvedExpr = resolveAllReferences(expression, tokens, options);
 
   // Simple math parser for expressions like "16px + 8px" or "2 * 1rem"
   const mathPattern = /^([\d.]+)([a-z%]*)\s*([+\-*\/])\s*([\d.]+)([a-z%]*)$/i;

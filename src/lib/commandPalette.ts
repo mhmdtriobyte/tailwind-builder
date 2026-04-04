@@ -12,7 +12,6 @@
 import {
   getShortcutManager,
   formatKeyCombo,
-  type KeyCombo,
   type ShortcutContext,
 } from './keyboardShortcuts';
 

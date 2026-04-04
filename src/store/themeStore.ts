@@ -33,7 +33,7 @@ import {
   createTheme,
   serializeTheme,
   deserializeTheme,
-  validateTheme,
+  generateColorScale,
 } from '@/lib/themeSystem';
 import {
   generateFullCSS,
@@ -309,8 +309,7 @@ export const useThemeStore = create<ThemeState>()(
 
       // Custom color setters
       setCustomPrimaryColor: (hex) => {
-        const { generateColorScale } = require('@/lib/themeSystem');
-        const scale = generateColorScale(hex);
+                const scale = generateColorScale(hex);
 
         set((state) => ({
           currentTheme: {
@@ -329,8 +328,7 @@ export const useThemeStore = create<ThemeState>()(
       },
 
       setCustomSecondaryColor: (hex) => {
-        const { generateColorScale } = require('@/lib/themeSystem');
-        const scale = generateColorScale(hex);
+                const scale = generateColorScale(hex);
 
         set((state) => ({
           currentTheme: {
@@ -349,8 +347,7 @@ export const useThemeStore = create<ThemeState>()(
       },
 
       setCustomAccentColor: (hex) => {
-        const { generateColorScale } = require('@/lib/themeSystem');
-        const scale = generateColorScale(hex);
+                const scale = generateColorScale(hex);
 
         set((state) => ({
           currentTheme: {

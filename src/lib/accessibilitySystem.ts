@@ -985,7 +985,7 @@ export function accessibleIcon(iconHtml: string, label: string): string {
 export function getStateText(state: {
   expanded?: boolean;
   selected?: boolean;
-  checked?: boolean;
+  checked?: boolean | 'mixed';
   disabled?: boolean;
   required?: boolean;
   invalid?: boolean;

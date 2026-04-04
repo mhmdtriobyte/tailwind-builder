@@ -9,15 +9,13 @@ import {
   CheckCircle,
   Loader2,
   Ban,
-  Plus,
   Trash2,
   Copy,
-  ChevronDown,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useCustomizationStore } from '@/store/customizationStore';
 import { useBuilderStore } from '@/store/builderStore';
-import type { ElementState, StateStyles } from '@/types/customization';
+import type { ElementState } from '@/types/customization';
 
 // ============================================================================
 // CONSTANTS
@@ -250,8 +248,7 @@ function StatePropertyRow({
 // ============================================================================
 
 export function VariantPanel() {
-  const { variants, addVariant, updateVariant, removeVariant, activeVariant, setActiveVariant } =
-    useCustomizationStore();
+  useCustomizationStore(); // Keep store connection for variant management
   const { selectedId, getElementById, updateElement } = useBuilderStore();
 
   const [activeState, setActiveState] = useState<ElementState>('default');
@@ -460,8 +457,8 @@ export function VariantPanel() {
           <p className="text-xs text-gray-500 mb-2">Preview Classes</p>
           <div className="flex flex-wrap gap-1">
             {Object.entries(stateStyles[activeState] || {})
-              .filter(([_, value]) => value)
-              .map(([_, value]) => {
+              .filter(([, value]) => value)
+              .map(([, value]) => {
                 const prefix = currentStateConfig?.prefix || '';
                 return (
                   <span

@@ -40,7 +40,28 @@ export type ColorIntensity = '50' | '100' | '200' | '300' | '400' | '500' | '600
 export type StyleVariant =
   | 'solid' | 'outline' | 'ghost' | 'link' | 'gradient'
   | 'glass' | 'elevated' | 'flat' | 'bordered' | 'filled'
-  | 'soft' | 'surface' | 'inverse';
+  | 'soft' | 'surface' | 'inverse' | 'notification'
+  | 'interactive' | 'interactive-lift' | 'interactive-glow'
+  | 'pricing' | 'pricing-featured' | 'outlined' | 'dark-mode'
+  | 'feature' | 'testimonial' | 'profile' | 'product' | 'blog'
+  | 'metric' | 'horizontal' | 'compact'
+  | 'underlined' | 'pill' | 'search' | 'default' | 'floating'
+  | 'icon-left' | 'icon-right' | 'icon-both'
+  | 'addon-left' | 'addon-right' | 'addon-both'
+  // Navigation styles
+  | 'tabs-pills' | 'mega-menu' | 'transparent' | 'glass-dark' | 'sticky' | 'dark'
+  | 'tabs' | 'tabs-underline' | 'tabs-boxed' | 'dropdown'
+  | 'breadcrumb' | 'breadcrumb-arrows'
+  | 'pagination' | 'pagination-simple' | 'pagination-rounded'
+  | 'sidebar' | 'sidebar-dark' | 'sidebar-compact'
+  // Text styles
+  | 'glow' | 'heading' | 'subheading' | 'display' | 'display-light'
+  | 'body' | 'caption' | 'label' | 'overline' | 'shadow'
+  | 'serif' | 'mono' | 'italic' | 'underline' | 'strikethrough'
+  // Button styles
+  | '3d' | 'icon-only'
+  // Section styles
+  | 'hero-split' | 'cta-card' | 'stats-highlight';
 
 /**
  * State variants for interactive elements
@@ -250,7 +271,7 @@ export function resolveConflicts(classes: string[]): string[] {
     }
   }
 
-  return [...result, ...prefixMap.values()];
+  return [...result, ...Array.from(prefixMap.values())];
 }
 
 // ============================================================================

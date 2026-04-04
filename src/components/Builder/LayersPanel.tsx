@@ -40,7 +40,6 @@ import {
   EyeOff,
   Lock,
   Unlock,
-  ChevronDown,
   ChevronRight,
   Trash2,
   Copy,
@@ -49,13 +48,11 @@ import {
   ChevronsUp,
   Filter,
   Layers,
-  MoreVertical,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useLayers, LayersProvider } from '@/hooks/useLayers';
 import { LayerItem } from './LayerItem';
 import type { LayerNode, LayerColor } from '@/lib/layerSystem';
-import { LAYER_COLORS } from '@/lib/layerSystem';
 import { useBuilderStore } from '@/store/builderStore';
 
 // ============================================================================
@@ -535,7 +532,6 @@ function LayersPanelContent() {
     isLocked,
     getLayerColor,
     layerTree,
-    layerStates,
   } = useLayers();
 
   const { duplicateElement, removeElement } = useBuilderStore();
@@ -548,7 +544,8 @@ function LayersPanelContent() {
     isOpen: false,
   });
 
-  // Rename state (for triggering rename from context menu)
+  // Rename state (reserved for triggering rename from context menu)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [renamingLayerId, setRenamingLayerId] = useState<string | null>(null);
 
   // DnD sensors

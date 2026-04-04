@@ -25,7 +25,6 @@ import { cn } from '@/utils/cn';
 import { useBuilderStore } from '@/store/builderStore';
 import {
   performSearch,
-  getSearchHistory,
   clearSearchHistory,
   removeFromSearchHistory,
   getSearchSuggestions,
@@ -38,7 +37,6 @@ import {
   type SearchResults,
   type ElementSearchResult,
   type SearchSuggestion,
-  DEFAULT_SEARCH_OPTIONS,
 } from '@/lib/searchSystem';
 
 // ============================================================================
@@ -225,14 +223,14 @@ function SuggestionItem({ suggestion, isSelected, onClick }: SuggestionItemProps
 // ============================================================================
 
 export function GlobalSearch({ isOpen, onOpenChange }: GlobalSearchProps) {
-  const { elements, selectElement, getElementById } = useBuilderStore();
+  const { elements, selectElement } = useBuilderStore();
 
   // Search state
   const [query, setQuery] = useState('');
   const [replaceText, setReplaceText] = useState('');
   const [showReplace, setShowReplace] = useState(false);
   const [scope, setScope] = useState<SearchScope>('all');
-  const [searchType, setSearchType] = useState<SearchType>('all');
+  const [searchType] = useState<SearchType>('all');
   const [caseSensitive, setCaseSensitive] = useState(false);
   const [useRegex, setUseRegex] = useState(false);
 
@@ -376,7 +374,7 @@ export function GlobalSearch({ isOpen, onOpenChange }: GlobalSearchProps) {
   const handleReplace = useCallback(() => {
     if (!query || !results || results.elements.length === 0) return;
 
-    const { updatedElements, replacementCount } = findAndReplace(
+    const { replacementCount } = findAndReplace(
       elements,
       query,
       replaceText,

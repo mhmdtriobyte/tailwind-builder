@@ -1606,7 +1606,7 @@ export function extractSelectors(css: string): string[] {
   };
 
   ast.rules.forEach(collectSelectors);
-  return [...new Set(selectors)];
+  return Array.from(new Set(selectors));
 }
 
 /**

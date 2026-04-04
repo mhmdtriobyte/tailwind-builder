@@ -59,8 +59,8 @@ export const BROWSER_FIXES: NormalizationRule[] = [
     description: 'Safari 100vh fix for iOS',
     selector: '.h-screen',
     properties: {
-      'height': '100vh',
-      'height': '-webkit-fill-available',
+      'min-height': '100vh',
+      'min-height-webkit': '-webkit-fill-available',
     },
     browsers: ['safari'],
   },
@@ -565,7 +565,7 @@ export function autoprefixCSS(css: string, options: Partial<AutoprefixOptions> =
     if (!opts.flexbox && (prefix.property.includes('flex') || prefix.property === 'display: flex')) continue;
 
     const propertyRegex = new RegExp(`(${prefix.standard}):\\s*([^;]+);`, 'g');
-    const matches = result.matchAll(propertyRegex);
+    const matches = Array.from(result.matchAll(propertyRegex));
 
     for (const match of matches) {
       const fullMatch = match[0];

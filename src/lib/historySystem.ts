@@ -1025,9 +1025,9 @@ export class HistorySystem {
       // Mark the current entry as a batch
       currentEntry.metadata.type = 'batch_update';
       currentEntry.metadata.description = `${this.activeGroup.name} (${this.groupedActions.length} changes)`;
-      currentEntry.metadata.affectedElements = [
-        ...new Set(this.groupedActions.map((a) => a.elementId).filter(Boolean) as string[]),
-      ];
+      currentEntry.metadata.affectedElements = Array.from(
+        new Set(this.groupedActions.map((a) => a.elementId).filter(Boolean) as string[])
+      );
     }
 
     this.activeGroup = null;

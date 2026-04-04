@@ -20,15 +20,12 @@ import {
   Edit3,
   MoreVertical,
   Home,
-  ChevronDown,
   GripVertical,
   Check,
   X,
   FolderPlus,
-  Settings,
   FileCode,
   AlertTriangle,
-  type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useProjectStore } from '@/store/projectStore';

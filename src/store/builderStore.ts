@@ -152,6 +152,7 @@ export const useBuilderStore = create<BuilderState>()(
       // Initial state
       elements: [],
       selectedId: null,
+      selectedIds: [],
       hoveredId: null,
       viewport: 'desktop',
       zoom: 100,
@@ -210,7 +211,22 @@ export const useBuilderStore = create<BuilderState>()(
         get().saveToHistory();
       },
 
-      selectElement: (id) => set({ selectedId: id }),
+      selectElement: (id) => set({ selectedId: id, selectedIds: id ? [id] : [] }),
+
+      setSelectedIds: (ids) => set({ selectedIds: ids, selectedId: ids.length > 0 ? ids[0] : null }),
+
+      addToSelection: (id) => set((state) => ({
+        selectedIds: state.selectedIds.includes(id) ? state.selectedIds : [...state.selectedIds, id],
+        selectedId: id,
+      })),
+
+      removeFromSelection: (id) => set((state) => {
+        const newIds = state.selectedIds.filter((i) => i !== id);
+        return {
+          selectedIds: newIds,
+          selectedId: state.selectedId === id ? (newIds.length > 0 ? newIds[0] : null) : state.selectedId,
+        };
+      }),
 
       setHoveredElement: (id) => set({ hoveredId: id }),
 
@@ -236,6 +252,28 @@ export const useBuilderStore = create<BuilderState>()(
           const index = siblings.findIndex((el) => el.id === id);
           const newElements = addElementToParent(state.elements, { ...clone, parentId }, parentId, index + 1);
           return { elements: newElements, selectedId: clone.id };
+        });
+        get().saveToHistory();
+      },
+
+      duplicateMultiple: (ids) => {
+        ids.forEach((id) => {
+          get().duplicateElement(id);
+        });
+      },
+
+      removeMultiple: (ids) => {
+        set((state) => {
+          let elements = state.elements;
+          for (const id of ids) {
+            elements = removeElementById(elements, id);
+          }
+          const newSelectedIds = state.selectedIds.filter((id) => !ids.includes(id));
+          return {
+            elements,
+            selectedIds: newSelectedIds,
+            selectedId: newSelectedIds.length > 0 ? newSelectedIds[0] : null
+          };
         });
         get().saveToHistory();
       },

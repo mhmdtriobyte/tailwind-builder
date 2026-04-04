@@ -22,14 +22,12 @@ import {
   Tag,
   FileText,
   Image,
-  Twitter,
   Link2,
-  Bot,
   Code,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useProjectStore } from '@/store/projectStore';
-import type { PageMeta, PageStyles, PageTemplate } from '@/lib/projectSystem';
+import type { PageMeta, PageStyles } from '@/lib/projectSystem';
 import { PAGE_TEMPLATES, validatePagePath } from '@/lib/projectSystem';
 
 // ============================================================================
@@ -517,7 +515,7 @@ export function PageSettings({ open, onOpenChange }: PageSettingsProps) {
                     onChange={(e) =>
                       handleMetaChange(
                         'twitterCard',
-                        e.target.value as PageMeta['twitterCard']
+                        e.target.value || 'summary_large_image'
                       )
                     }
                     className={cn(

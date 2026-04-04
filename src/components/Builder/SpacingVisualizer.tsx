@@ -6,7 +6,6 @@ import {
   spacingSystem,
   SpacingScaleValue,
   SPACING_MAP,
-  SPACING_SCALE,
 } from '@/lib/spacingSystem';
 
 // ============================================================================
@@ -75,7 +74,6 @@ const MAX_SPACING = 384; // 96 in Tailwind scale
 // ============================================================================
 
 export function SpacingVisualizer({
-  elementId,
   elementRef,
   spacing,
   onSpacingChange,
@@ -85,6 +83,7 @@ export function SpacingVisualizer({
   className,
 }: SpacingVisualizerProps) {
   const [dragState, setDragState] = useState<DragState | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hoveredSide, setHoveredSide] = useState<keyof SpacingValues | null>(null);
   const [elementRect, setElementRect] = useState<DOMRect | null>(null);
   const visualizerRef = useRef<HTMLDivElement>(null);
@@ -504,12 +503,15 @@ interface GapOverlayProps {
   showLabels: boolean;
 }
 
+// Reserved for future gap display enhancements
 function GapOverlay({
   spacing,
   elementRect,
   marginOffset,
   paddingOffset,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   hoveredSide,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onHover,
   formatValue,
   showLabels,

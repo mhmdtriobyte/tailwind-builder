@@ -62,6 +62,7 @@ export interface BuilderState {
   // Canvas state
   elements: BuilderElement[];
   selectedId: string | null;
+  selectedIds: string[];
   hoveredId: string | null;
 
   // Viewport & display
@@ -87,9 +88,14 @@ export interface BuilderState {
   updateElement: (id: string, updates: Partial<BuilderElement>) => void;
   updateElementStyles: (id: string, category: keyof ElementStyles, classes: string[]) => void;
   selectElement: (id: string | null) => void;
+  setSelectedIds: (ids: string[]) => void;
+  addToSelection: (id: string) => void;
+  removeFromSelection: (id: string) => void;
   setHoveredElement: (id: string | null) => void;
   moveElement: (activeId: string, overId: string, position: 'before' | 'after' | 'inside') => void;
   duplicateElement: (id: string) => void;
+  duplicateMultiple: (ids: string[]) => void;
+  removeMultiple: (ids: string[]) => void;
 
   // Viewport actions
   setViewport: (viewport: ViewportType) => void;

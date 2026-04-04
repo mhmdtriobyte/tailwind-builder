@@ -286,7 +286,7 @@ export class DiffEngine {
     const processedIds = new Set<string>();
 
     // Process all elements from both states
-    const allIds = new Set([...oldMap.keys(), ...newMap.keys()]);
+    const allIds = new Set([...Array.from(oldMap.keys()), ...Array.from(newMap.keys())]);
 
     allIds.forEach((id) => {
       if (processedIds.has(id)) return;
@@ -681,7 +681,7 @@ export class DiffEngine {
       moved,
       majorChanges,
       minorChanges,
-      affectedElements: [...new Set(affectedElements)],
+      affectedElements: Array.from(new Set(affectedElements)),
     };
   }
 

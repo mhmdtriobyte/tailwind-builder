@@ -11,12 +11,12 @@ interface CanvasProps {
 }
 
 const VIEWPORT_WIDTHS = {
-  desktop: '100%',
+  desktop: '1280px',
   tablet: '768px',
   mobile: '375px',
 } as const;
 
-const GRID_PATTERN = `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239CA3AF' fill-opacity='0.1'%3E%3Crect width='1' height='1'/%3E%3C/g%3E%3C/svg%3E")`;
+const GRID_PATTERN = `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 20 0 L 0 0 0 20' fill='none' stroke='%23e5e7eb' stroke-width='1'/%3E%3C/svg%3E")`;
 
 export function Canvas({ className }: CanvasProps) {
   const {
@@ -78,7 +78,6 @@ export function Canvas({ className }: CanvasProps) {
             )}
             style={{
               width: VIEWPORT_WIDTHS[viewport],
-              minWidth: viewport === 'desktop' ? '100%' : VIEWPORT_WIDTHS[viewport],
               backgroundImage: showGrid ? GRID_PATTERN : 'none',
               backgroundSize: '20px 20px',
             }}

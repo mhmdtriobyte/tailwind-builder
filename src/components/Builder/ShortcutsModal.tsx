@@ -25,13 +25,11 @@ import {
   getShortcutManager,
   formatKeyCombo,
   eventToKeyCombo,
-  keyComboEquals,
   type ShortcutDefinition,
   type ShortcutCategory,
   type KeyCombo,
   type ShortcutConflict,
   CATEGORY_INFO,
-  DEFAULT_SHORTCUTS,
 } from '@/lib/keyboardShortcuts';
 
 // ============================================================================
@@ -398,7 +396,7 @@ export function ShortcutsModal({ open, onOpenChange }: ShortcutsModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<ShortcutCategory>>(
-    new Set(['editing', 'view', 'file'])
+    new Set(['editing', 'view', 'file'] as ShortcutCategory[])
   );
   const [conflicts, setConflicts] = useState<ShortcutConflict[]>([]);
 
@@ -540,7 +538,7 @@ export function ShortcutsModal({ open, onOpenChange }: ShortcutsModalProps) {
         } else {
           alert('Failed to import shortcuts. Invalid file format.');
         }
-      } catch (error) {
+      } catch {
         alert('Failed to read file.');
       }
     };

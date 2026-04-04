@@ -617,7 +617,7 @@ export function parseTailwindSpacingClass(className: string): SpacingValue | nul
     return null;
   }
 
-  let scaleValue = match[1];
+  const scaleValue = match[1];
 
   // Handle arbitrary values like [1.5rem]
   if (scaleValue.startsWith('[') && scaleValue.endsWith(']')) {

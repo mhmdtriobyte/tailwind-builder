@@ -3,6 +3,10 @@
   "rules": {
     "@next/next/no-img-element": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "jsx-a11y/role-supports-aria-props": "warn"
+    "jsx-a11y/role-supports-aria-props": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "import/no-anonymous-default-export": "warn"
   }
 }

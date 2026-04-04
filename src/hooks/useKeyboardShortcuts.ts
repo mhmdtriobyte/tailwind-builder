@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
+import { useEffect, useCallback, useState, useMemo } from 'react';
 import { useBuilderStore } from '@/store/builderStore';
 import toast from 'react-hot-toast';
 import {
   getShortcutManager,
-  matchesKeyCombo,
   type ShortcutContext,
-  type ShortcutDefinition,
 } from '@/lib/keyboardShortcuts';
 import {
   getCommandRegistry,
@@ -149,7 +147,7 @@ export function useKeyboardShortcuts(
     toggleCodePreview,
     toggleGrid,
     toggleSidebar,
-    togglePropertiesPanel,
+    // togglePropertiesPanel is available but not used yet
     selectElement,
     setZoom,
     zoom,

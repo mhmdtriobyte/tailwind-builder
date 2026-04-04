@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import * as Tabs from '@radix-ui/react-tabs';
 import * as Dialog from '@radix-ui/react-dialog';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   Plus,
   Trash2,
@@ -16,7 +14,6 @@ import {
   ChevronRight,
   Link2,
   X,
-  Check,
   Palette,
   Type,
   Maximize2,
@@ -26,7 +23,6 @@ import {
   Monitor,
   Sun,
   Moon,
-  AlertCircle,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import type {
@@ -38,7 +34,6 @@ import type {
 } from '@/lib/designTokens';
 import {
   allDesignTokens,
-  getTokensByCategory,
   getCategoryDisplayName,
   getTierDisplayName,
   createToken,
@@ -48,7 +43,6 @@ import {
 import {
   transformTokens,
   formatInfo,
-  type TransformResult,
 } from '@/lib/tokenTransformer';
 import { resolveTokenValue, getAliasChain } from '@/lib/tokenResolver';
 
@@ -610,10 +604,10 @@ function TokenRow({
         <div className="flex items-center gap-2">
           <span className="text-sm text-white truncate">{token.name}</span>
           {token.reference && (
-            <Link2 className="w-3 h-3 text-blue-400" title="Has reference" />
+            <span title="Has reference"><Link2 className="w-3 h-3 text-blue-400" /></span>
           )}
           {token.value.darkValue && (
-            <Moon className="w-3 h-3 text-purple-400" title="Has dark value" />
+            <span title="Has dark value"><Moon className="w-3 h-3 text-purple-400" /></span>
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5">
@@ -724,7 +718,8 @@ interface TokenPreviewPanelProps {
   onClose: () => void;
 }
 
-function TokenPreviewPanel({ token, colorScheme, onClose }: TokenPreviewPanelProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function TokenPreviewPanel({ token, colorScheme: _colorScheme, onClose }: TokenPreviewPanelProps) {
   const lightValue = resolveTokenValue(token, { colorScheme: 'light' });
   const darkValue = resolveTokenValue(token, { colorScheme: 'dark' });
   const aliasChain = token.reference ? getAliasChain(token.id) : [];

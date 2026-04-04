@@ -497,7 +497,7 @@ const sectionCompoundVariants: CompoundVariant[] = [
 
   // Solid dark colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'solid', color: color as ColorVariant },
+    conditions: { style: 'solid' as const, color: color as ColorVariant },
     classes: [`bg-${color}-600`, 'text-white'],
     priority: 8,
   })),
@@ -521,14 +521,14 @@ const sectionCompoundVariants: CompoundVariant[] = [
 
   // CTA card with colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'cta-card', color: color as ColorVariant },
+    conditions: { style: 'cta-card' as const, color: color as ColorVariant },
     classes: [`bg-${color}-600`, 'text-white'],
     priority: 10,
   })),
 
   // Stats highlight with colors
   ...VARIANT_COLORS.filter(c => c !== 'white' && c !== 'black').slice(0, 10).map(color => ({
-    conditions: { style: 'stats-highlight', color: color as ColorVariant },
+    conditions: { style: 'stats-highlight' as const, color: color as ColorVariant },
     classes: [`bg-${color}-600`, 'text-white'],
     priority: 10,
   })),

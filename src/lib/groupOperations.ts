@@ -238,7 +238,7 @@ export function applyStylesToMultiple(
         newClasses = styleUpdate.classes;
         break;
       case 'add':
-        newClasses = [...new Set([...currentClasses, ...styleUpdate.classes])];
+        newClasses = Array.from(new Set([...currentClasses, ...styleUpdate.classes]));
         break;
       case 'remove':
         newClasses = currentClasses.filter(c => !styleUpdate.classes.includes(c));
@@ -331,7 +331,7 @@ export function alignElements(
   const centerY = (bounds.top + bounds.bottom) / 2;
 
   for (const pos of positions) {
-    let adjustment: { x?: number; y?: number } = {};
+    const adjustment: { x?: number; y?: number } = {};
 
     switch (alignment) {
       case 'left':
@@ -877,7 +877,7 @@ export function reorderElements(
 
   let newElements = [...elements];
 
-  for (const [parentId, ids] of byParent) {
+  for (const [parentId, ids] of Array.from(byParent)) {
     const siblings = parentId
       ? findElementById(newElements, parentId)?.children || []
       : newElements;
@@ -957,7 +957,17 @@ export function wrapInContainer(
   generateId: () => string,
   containerType: string = 'container'
 ): GroupOperationResult<{ elements: BuilderElement[]; containerId: string }> {
-  return groupElements(elements, selectedIds, generateId, containerType);
+  const result = groupElements(elements, selectedIds, generateId, containerType);
+  if (!result.success) {
+    return { success: false, error: result.error };
+  }
+  return {
+    success: true,
+    data: {
+      elements: result.data!.elements,
+      containerId: result.data!.groupId,
+    },
+  };
 }
 
 /**

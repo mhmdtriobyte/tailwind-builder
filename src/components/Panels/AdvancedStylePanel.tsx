@@ -7,9 +7,6 @@ import {
   Filter,
   Move,
   ChevronDown,
-  RotateCw,
-  Maximize2,
-  Eye,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useBuilderStore } from '@/store/builderStore';

@@ -717,7 +717,9 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
         path: '/',
         elements: [],
         meta: {
+          title: 'Home',
           description: 'Welcome to our landing page',
+          keywords: [],
         },
       },
     ],

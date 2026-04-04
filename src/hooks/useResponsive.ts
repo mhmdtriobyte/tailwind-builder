@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
   TAILWIND_BREAKPOINTS,
-  EXTENDED_BREAKPOINTS,
   getBreakpointForWidth,
   resolveResponsiveValue,
   type BreakpointConfig,
@@ -102,7 +101,7 @@ export function useResponsive(options: UseResponsiveOptions = {}) {
   const {
     breakpoints = TAILWIND_BREAKPOINTS,
     debounceMs = 100,
-    enableSSR = true,
+    // enableSSR reserved for future SSR support
     defaultWidth = 1024,
     defaultHeight = 768,
   } = options;

@@ -9,8 +9,6 @@ import {
   Zap,
   ArrowRight,
   ArrowLeft,
-  ChevronDown,
-  Plus,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useCustomizationStore } from '@/store/customizationStore';

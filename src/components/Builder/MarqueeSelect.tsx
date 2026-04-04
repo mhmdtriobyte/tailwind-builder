@@ -40,8 +40,6 @@ export function MarqueeSelect({
     elements,
     selectedIds,
     setSelectedIds,
-    addToSelection,
-    removeFromSelection
   } = useBuilderStore();
 
   const [state, setState] = useState<MarqueeState>(INITIAL_STATE);
@@ -164,7 +162,7 @@ export function MarqueeSelect({
   }, [state.isDrawing, state.startX, state.startY, canvasRef, elements]);
 
   // Handle mouse up - complete marquee
-  const handleMouseUp = useCallback((e: MouseEvent) => {
+  const handleMouseUp = useCallback(() => {
     if (!state.isDrawing) return;
 
     const { shift, alt } = modifiersRef.current;
@@ -172,23 +170,13 @@ export function MarqueeSelect({
     // Apply selection based on modifiers
     if (previewIds.length > 0) {
       if (shift) {
-        // Add to existing selection
-        if (typeof addToSelection === 'function') {
-          addToSelection(previewIds);
-        } else {
-          // Fallback: merge with existing selection
-          const newSelection = [...new Set([...selectedIds, ...previewIds])];
-          setSelectedIds(newSelection);
-        }
+        // Add to existing selection - merge with existing
+        const newSelection = Array.from(new Set([...selectedIds, ...previewIds]));
+        setSelectedIds(newSelection);
       } else if (alt) {
-        // Remove from existing selection
-        if (typeof removeFromSelection === 'function') {
-          removeFromSelection(previewIds);
-        } else {
-          // Fallback: filter out from existing selection
-          const newSelection = selectedIds.filter(id => !previewIds.includes(id));
-          setSelectedIds(newSelection);
-        }
+        // Remove from existing selection - filter out
+        const newSelection = selectedIds.filter(id => !previewIds.includes(id));
+        setSelectedIds(newSelection);
       } else {
         // Replace selection
         setSelectedIds(previewIds);
@@ -206,8 +194,6 @@ export function MarqueeSelect({
     previewIds,
     selectedIds,
     setSelectedIds,
-    addToSelection,
-    removeFromSelection
   ]);
 
   // Handle escape key to cancel

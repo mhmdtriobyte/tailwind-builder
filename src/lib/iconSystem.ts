@@ -18,7 +18,9 @@ import * as LucideIcons from 'lucide-react';
 // TYPES AND INTERFACES
 // ============================================================================
 
-export type IconName = keyof typeof LucideIcons;
+// Extended IconName type to allow custom icons beyond Lucide library
+export type LucideIconName = keyof typeof LucideIcons;
+export type IconName = LucideIconName | (string & {});
 
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
@@ -335,7 +337,7 @@ export const iconCategories: Record<IconCategory, IconMetadata[]> = {
     { name: 'Gamepad', displayName: 'Gamepad', category: 'devices', tags: ['controller', 'gaming', 'game'] },
     { name: 'Gamepad2', displayName: 'Gamepad 2', category: 'devices', tags: ['controller', 'gaming'] },
     { name: 'Printer', displayName: 'Printer', category: 'devices', tags: ['print', 'paper'] },
-    { name: 'Scanner', displayName: 'Scanner', category: 'devices', tags: ['scan', 'document'] },
+    { name: 'ScanLine', displayName: 'Scanner', category: 'devices', tags: ['scan', 'document'] },
     { name: 'Server', displayName: 'Server', category: 'devices', tags: ['computer', 'hosting', 'backend'] },
     { name: 'Router', displayName: 'Router', category: 'devices', tags: ['network', 'wifi', 'internet'] },
     { name: 'Wifi', displayName: 'WiFi', category: 'devices', tags: ['wireless', 'network', 'internet'] },
@@ -579,7 +581,7 @@ export const iconCategories: Record<IconCategory, IconMetadata[]> = {
     { name: 'Rows', displayName: 'Rows', category: 'layout', tags: ['grid', 'rows', 'layout'] },
     { name: 'Table', displayName: 'Table', category: 'layout', tags: ['grid', 'data', 'spreadsheet'] },
     { name: 'Table2', displayName: 'Table 2', category: 'layout', tags: ['grid', 'data'] },
-    { name: 'TableCells', displayName: 'Table Cells', category: 'layout', tags: ['grid', 'cells'] },
+    { name: 'Grid3X3', displayName: 'Table Cells', category: 'layout', tags: ['grid', 'cells'] },
     { name: 'TableProperties', displayName: 'Table Properties', category: 'layout', tags: ['settings'] },
     { name: 'SquareSplitVertical', displayName: 'Split Vertical', category: 'layout', tags: ['divide', 'split'] },
     { name: 'SquareSplitHorizontal', displayName: 'Split Horizontal', category: 'layout', tags: ['divide', 'split'] },
@@ -590,7 +592,7 @@ export const iconCategories: Record<IconCategory, IconMetadata[]> = {
     { name: 'RectangleHorizontal', displayName: 'Rectangle Horizontal', category: 'layout', tags: ['shape', 'box'] },
     { name: 'RectangleVertical', displayName: 'Rectangle Vertical', category: 'layout', tags: ['shape', 'box'] },
     { name: 'Ratio', displayName: 'Ratio', category: 'layout', tags: ['aspect ratio', 'size'] },
-    { name: 'AspectRatio', displayName: 'Aspect Ratio', category: 'layout', tags: ['size', 'proportion'] },
+    { name: 'Scaling', displayName: 'Aspect Ratio', category: 'layout', tags: ['size', 'proportion'] },
     { name: 'Crop', displayName: 'Crop', category: 'layout', tags: ['trim', 'cut', 'image'] },
     { name: 'FlipHorizontal', displayName: 'Flip Horizontal', category: 'layout', tags: ['mirror', 'transform'] },
     { name: 'FlipVertical', displayName: 'Flip Vertical', category: 'layout', tags: ['mirror', 'transform'] },
@@ -609,9 +611,9 @@ export const iconCategories: Record<IconCategory, IconMetadata[]> = {
     { name: 'Figma', displayName: 'Figma', category: 'social', tags: ['design', 'tool', 'ui'] },
     { name: 'Framer', displayName: 'Framer', category: 'social', tags: ['design', 'prototype'] },
     { name: 'Slack', displayName: 'Slack', category: 'social', tags: ['chat', 'team', 'communication'] },
-    { name: 'Discord', displayName: 'Discord', category: 'social', tags: ['chat', 'community', 'gaming'] },
-    { name: 'Chrome', displayName: 'Chrome', category: 'social', tags: ['browser', 'google'] },
-    { name: 'Apple', displayName: 'Apple', category: 'social', tags: ['brand', 'mac', 'ios'] },
+    { name: 'MessageCircle', displayName: 'Discord', category: 'social', tags: ['chat', 'community', 'gaming'] },
+    { name: 'Globe', displayName: 'Chrome', category: 'social', tags: ['browser', 'google'] },
+    { name: 'Smartphone', displayName: 'Apple', category: 'social', tags: ['brand', 'mac', 'ios'] },
     { name: 'User', displayName: 'User', category: 'social', tags: ['person', 'profile', 'account'] },
     { name: 'Users', displayName: 'Users', category: 'social', tags: ['people', 'group', 'team'] },
     { name: 'UserPlus', displayName: 'User Plus', category: 'social', tags: ['add friend', 'follow'] },
@@ -852,7 +854,7 @@ export const categoryMetadata: Record<IconCategory, { label: string; icon: IconN
  */
 export function getAllIconNames(): IconName[] {
   return Object.keys(LucideIcons).filter(
-    (key) => typeof LucideIcons[key as IconName] === 'function' &&
+    (key) => typeof (LucideIcons as Record<string, unknown>)[key] === 'function' &&
              key !== 'createLucideIcon' &&
              key !== 'default' &&
              !key.startsWith('Lucide')
@@ -862,15 +864,15 @@ export function getAllIconNames(): IconName[] {
 /**
  * Checks if an icon name exists in Lucide
  */
-export function isValidIconName(name: string): name is IconName {
-  return name in LucideIcons && typeof LucideIcons[name as IconName] === 'function';
+export function isValidIconName(name: string): name is LucideIconName {
+  return name in LucideIcons && typeof (LucideIcons as Record<string, unknown>)[name] === 'function';
 }
 
 /**
  * Gets the Lucide icon component by name
  */
 export function getIconComponent(name: IconName): React.ComponentType<LucideIcons.LucideProps> | null {
-  const icon = LucideIcons[name];
+  const icon = (LucideIcons as Record<string, unknown>)[name as string];
   if (typeof icon === 'function') {
     return icon as React.ComponentType<LucideIcons.LucideProps>;
   }

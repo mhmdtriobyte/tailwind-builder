@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import {
   Search,
   ChevronDown,
@@ -17,6 +18,8 @@ import {
   Type,
   GripVertical,
   X,
+  Star,
+  Clock,
   LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
@@ -58,11 +61,39 @@ const CATEGORY_ICONS: Record<ComponentCategory, LucideIcon> = {
   text: Type,
 };
 
+const STORAGE_KEY_FAVORITES = 'tailwind-builder-favorites';
+const STORAGE_KEY_RECENT = 'tailwind-builder-recent';
+const MAX_RECENT_ITEMS = 8;
+
 // ============================================================================
 // TYPES
 // ============================================================================
 
 type ViewMode = 'grid' | 'list';
+
+// ============================================================================
+// FUZZY SEARCH HELPER
+// ============================================================================
+
+function fuzzyMatch(text: string, query: string): boolean {
+  const textLower = text.toLowerCase();
+  const queryLower = query.toLowerCase();
+
+  // Direct includes check
+  if (textLower.includes(queryLower)) {
+    return true;
+  }
+
+  // Fuzzy match - all query chars must appear in order
+  let queryIndex = 0;
+  for (let i = 0; i < textLower.length && queryIndex < queryLower.length; i++) {
+    if (textLower[i] === queryLower[queryIndex]) {
+      queryIndex++;
+    }
+  }
+
+  return queryIndex === queryLower.length;
+}
 
 // ============================================================================
 // SUB-COMPONENTS
@@ -157,14 +188,46 @@ function CategoryHeader({ category, count }: CategoryHeaderProps) {
 interface ComponentGridProps {
   components: ComponentDefinition[];
   viewMode: ViewMode;
+  favorites: string[];
+  onToggleFavorite: (type: string) => void;
+  onComponentClick: (type: string) => void;
 }
 
-function ComponentGrid({ components, viewMode }: ComponentGridProps) {
+function ComponentGrid({
+  components,
+  viewMode,
+  favorites,
+  onToggleFavorite,
+  onComponentClick,
+}: ComponentGridProps) {
   if (viewMode === 'list') {
     return (
       <div className="flex flex-col gap-1 px-1">
         {components.map((component) => (
-          <DraggableComponentListItem key={component.type} component={component} />
+          <div
+            key={component.type}
+            className="relative group"
+            onClick={() => onComponentClick(component.type)}
+          >
+            <DraggableComponentListItem component={component} />
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(component.type);
+              }}
+              className={cn(
+                'absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded',
+                'opacity-0 group-hover:opacity-100 transition-opacity',
+                favorites.includes(component.type)
+                  ? 'text-yellow-400'
+                  : 'text-gray-500 hover:text-gray-300'
+              )}
+            >
+              <Star
+                className={cn('w-3 h-3', favorites.includes(component.type) && 'fill-current')}
+              />
+            </button>
+          </div>
         ))}
       </div>
     );
@@ -173,7 +236,30 @@ function ComponentGrid({ components, viewMode }: ComponentGridProps) {
   return (
     <div className="grid grid-cols-2 gap-2 px-1">
       {components.map((component) => (
-        <DraggableComponent key={component.type} component={component} />
+        <div
+          key={component.type}
+          className="relative group"
+          onClick={() => onComponentClick(component.type)}
+        >
+          <DraggableComponent component={component} />
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavorite(component.type);
+            }}
+            className={cn(
+              'absolute top-1 right-1 p-1 rounded',
+              'opacity-0 group-hover:opacity-100 transition-opacity',
+              favorites.includes(component.type)
+                ? 'text-yellow-400'
+                : 'text-gray-500 hover:text-gray-300'
+            )}
+          >
+            <Star
+              className={cn('w-3 h-3', favorites.includes(component.type) && 'fill-current')}
+            />
+          </button>
+        </div>
       ))}
     </div>
   );
@@ -236,6 +322,78 @@ function ViewModeToggle({ viewMode, onChange }: ViewModeToggleProps) {
   );
 }
 
+interface SpecialSectionProps {
+  title: string;
+  icon: LucideIcon;
+  iconColor: string;
+  components: ComponentDefinition[];
+  isOpen: boolean;
+  onToggle: () => void;
+  viewMode: ViewMode;
+  favorites: string[];
+  onToggleFavorite: (type: string) => void;
+  onComponentClick: (type: string) => void;
+}
+
+function SpecialSection({
+  title,
+  icon: Icon,
+  iconColor,
+  components,
+  isOpen,
+  onToggle,
+  viewMode,
+  favorites,
+  onToggleFavorite,
+  onComponentClick,
+}: SpecialSectionProps) {
+  if (components.length === 0) return null;
+
+  return (
+    <Collapsible.Root open={isOpen} onOpenChange={onToggle}>
+      <Collapsible.Trigger
+        className={cn(
+          'flex items-center justify-between w-full px-3 py-2 text-left',
+          'text-sm font-medium text-gray-400',
+          'hover:bg-gray-800/50 hover:text-gray-300',
+          'rounded-lg transition-colors duration-150'
+        )}
+      >
+        <div className="flex items-center gap-2">
+          <Icon className={cn('w-4 h-4', iconColor)} />
+          <span>{title}</span>
+          <span className="text-xs text-gray-600 bg-gray-800 px-1.5 py-0.5 rounded-full">
+            {components.length}
+          </span>
+        </div>
+        <ChevronDown
+          className={cn(
+            'w-4 h-4 text-gray-500 transition-transform duration-200',
+            isOpen && 'rotate-180'
+          )}
+        />
+      </Collapsible.Trigger>
+      <Collapsible.Content
+        className={cn(
+          'overflow-hidden',
+          'data-[state=open]:animate-slideDown',
+          'data-[state=closed]:animate-slideUp'
+        )}
+      >
+        <div className="py-2">
+          <ComponentGrid
+            components={components}
+            viewMode={viewMode}
+            favorites={favorites}
+            onToggleFavorite={onToggleFavorite}
+            onComponentClick={onComponentClick}
+          />
+        </div>
+      </Collapsible.Content>
+    </Collapsible.Root>
+  );
+}
+
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
@@ -248,9 +406,93 @@ export function ComponentSidebar() {
   const [sidebarWidth, setSidebarWidth] = useState(SIDEBAR_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
   const [openCategories, setOpenCategories] = useState<string[]>(['layout', 'buttons', 'text']);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showRecent, setShowRecent] = useState(false);
+
+  // Favorites and recent - persisted in localStorage
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [recentlyUsed, setRecentlyUsed] = useState<string[]>([]);
+
+  // Load favorites and recent from localStorage
+  useEffect(() => {
+    try {
+      const storedFavorites = localStorage.getItem(STORAGE_KEY_FAVORITES);
+      const storedRecent = localStorage.getItem(STORAGE_KEY_RECENT);
+
+      if (storedFavorites) {
+        setFavorites(JSON.parse(storedFavorites));
+      }
+      if (storedRecent) {
+        setRecentlyUsed(JSON.parse(storedRecent));
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, []);
+
+  // Save favorites to localStorage
+  const saveFavorites = useCallback((newFavorites: string[]) => {
+    setFavorites(newFavorites);
+    try {
+      localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(newFavorites));
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, []);
+
+  // Save recent to localStorage
+  const saveRecent = useCallback((newRecent: string[]) => {
+    setRecentlyUsed(newRecent);
+    try {
+      localStorage.setItem(STORAGE_KEY_RECENT, JSON.stringify(newRecent));
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, []);
+
+  // Toggle favorite
+  const handleToggleFavorite = useCallback(
+    (type: string) => {
+      const newFavorites = favorites.includes(type)
+        ? favorites.filter((f) => f !== type)
+        : [...favorites, type];
+      saveFavorites(newFavorites);
+    },
+    [favorites, saveFavorites]
+  );
+
+  // Add to recent
+  const handleComponentClick = useCallback(
+    (type: string) => {
+      const newRecent = [type, ...recentlyUsed.filter((r) => r !== type)].slice(0, MAX_RECENT_ITEMS);
+      saveRecent(newRecent);
+    },
+    [recentlyUsed, saveRecent]
+  );
+
+  // Get all components flat list for searching
+  const allComponents = useMemo(() => {
+    const result: ComponentDefinition[] = [];
+    for (const category of CATEGORY_ORDER) {
+      result.push(...componentsByCategory[category]);
+    }
+    return result;
+  }, []);
+
+  // Get favorite components
+  const favoriteComponents = useMemo(() => {
+    return allComponents.filter((c) => favorites.includes(c.type));
+  }, [allComponents, favorites]);
+
+  // Get recently used components
+  const recentComponents = useMemo(() => {
+    return recentlyUsed
+      .map((type) => allComponents.find((c) => c.type === type))
+      .filter(Boolean) as ComponentDefinition[];
+  }, [allComponents, recentlyUsed]);
 
   /**
-   * Filter components based on search query
+   * Filter components based on search query with fuzzy matching
    */
   const filteredComponentsByCategory = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -272,8 +514,8 @@ export function ComponentSidebar() {
     for (const category of CATEGORY_ORDER) {
       filtered[category] = componentsByCategory[category].filter(
         (component) =>
-          component.name.toLowerCase().includes(query) ||
-          component.type.toLowerCase().includes(query)
+          fuzzyMatch(component.name, query) ||
+          fuzzyMatch(component.type, query)
       );
     }
 
@@ -427,6 +669,43 @@ export function ComponentSidebar() {
       {/* Component Categories */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
         <div className="p-2">
+          {/* Favorites Section */}
+          {!searchQuery && (
+            <SpecialSection
+              title="Favorites"
+              icon={Star}
+              iconColor="text-yellow-400"
+              components={favoriteComponents}
+              isOpen={showFavorites}
+              onToggle={() => setShowFavorites(!showFavorites)}
+              viewMode={viewMode}
+              favorites={favorites}
+              onToggleFavorite={handleToggleFavorite}
+              onComponentClick={handleComponentClick}
+            />
+          )}
+
+          {/* Recently Used Section */}
+          {!searchQuery && recentComponents.length > 0 && (
+            <SpecialSection
+              title="Recently Used"
+              icon={Clock}
+              iconColor="text-blue-400"
+              components={recentComponents}
+              isOpen={showRecent}
+              onToggle={() => setShowRecent(!showRecent)}
+              viewMode={viewMode}
+              favorites={favorites}
+              onToggleFavorite={handleToggleFavorite}
+              onComponentClick={handleComponentClick}
+            />
+          )}
+
+          {/* Divider if showing special sections */}
+          {!searchQuery && (favoriteComponents.length > 0 || recentComponents.length > 0) && (
+            <div className="my-2 border-t border-gray-800" />
+          )}
+
           {visibleCategories.length === 0 ? (
             <div className="py-8 text-center text-gray-500">
               <p className="text-sm">No components found</p>
@@ -463,6 +742,9 @@ export function ComponentSidebar() {
                         <ComponentGrid
                           components={components}
                           viewMode={viewMode}
+                          favorites={favorites}
+                          onToggleFavorite={handleToggleFavorite}
+                          onComponentClick={handleComponentClick}
                         />
                       </div>
                     </Accordion.Content>
@@ -476,7 +758,10 @@ export function ComponentSidebar() {
 
       {/* Info footer */}
       <div className="px-4 py-3 border-t border-gray-800 text-xs text-gray-500">
-        Drag components onto the canvas
+        <div className="flex items-center justify-between">
+          <span>Drag components onto the canvas</span>
+          <span className="text-gray-600">Ctrl+K to search</span>
+        </div>
       </div>
 
       {/* Resize Handle */}

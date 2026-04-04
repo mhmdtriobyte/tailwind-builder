@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sun, Moon, Palette, Check, Plus, Trash2, Copy } from 'lucide-react';
+import { Sun, Moon, Check, Plus, Trash2, Copy } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useCustomizationStore } from '@/store/customizationStore';
 
